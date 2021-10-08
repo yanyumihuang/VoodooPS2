@@ -148,14 +148,14 @@ static bool parseRemap(const char *psz, UInt16 &scanFrom, UInt16& scanTo)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+ bool      _numKeypadLocked;
 bool ApplePS2Keyboard::init(OSDictionary * dict)
 {
     //
     // Initialize this object's minimal state.  This is invoked right after this
     // object is instantiated.
     //
-     //_numKeypadsss = true;
+    _numKeypadLocked = true;
     if (!super::init(dict))
         return false;
     // initialize state
@@ -1494,7 +1494,7 @@ bool ApplePS2Keyboard::dispatchKeyboardEventWithPacket(const UInt8* packet)
         case 0x6e:
                     if (checkModifierState(kMaskLeftControl|kMaskLeftShift)) {
                         keyCode=0;
-                        if(goingDown){
+                        if(goingDown&&!_numKeypadLocked){
                             dispatchKeyboardEventX(0x38, false, now_abs);
                             dispatchKeyboardEventX(0x3b, false, now_abs);
 		            dispatchKeyboardEventX(0x80, false, now_abs);
@@ -1506,15 +1506,14 @@ bool ApplePS2Keyboard::dispatchKeyboardEventWithPacket(const UInt8* packet)
                             dispatchKeyboardEventX(0x1a, false, now_abs);
                     }
                     break;
-                //case 0x45:  //num lock remapping
-                           //keyCode = 0;
-
+                case 0x45:  //num lock remapping
+                           keyCode = 0;
                            //NUM LOCK fix For DELL Precision M4800
-                           //if(goingDown)
-                           //{
-                             //  setNumLockFeedback(_numKeypadsss);
-                            //   _numKeypadsss = !_numKeypadsss;
-                          // }
+                           if(goingDown)
+                           {
+                               setNumLockFeedback(_numKeypadLocked);
+                               _numKeypadLocked = !_numKeypadLocked;
+                           }
 
                            // remap NUM PAD by NUMLOCK LED status
                            
@@ -1527,34 +1526,39 @@ bool ApplePS2Keyboard::dispatchKeyboardEventWithPacket(const UInt8* packet)
         //                           <string>e022=1c;inert to 8</string>
         //                           <string>e010=19;inert to 9</string>
         //                           <string>6b=1d;inert to 9</string>
-                       // if(!_numKeypadsss)
-                       // {
-                            //   _PS2ToADBMap[0xe022] = 0x5b;     // 8 up arrow
-                             //  _PS2ToADBMap[0xe037] = 0x54;     // 2 down arrow
-                             //  _PS2ToADBMap[0x65] = 0x56;     // 4 left arrow
-                             //  _PS2ToADBMap[0x69] = 0x58;     // 6 right arrow
-                             //  _PS2ToADBMap[0x6b] = 0x52;     // 0 insert / CDROM inject
-                               //_PS2ToADBMap[0xe053] = 0x41;     // . delete
-                               //_PS2ToADBMap[0xe010] = 0x5c;     // 9 page up
-                               //_PS2ToADBMap[0xe046] = 0x55;     // 3 page down
-                               //_PS2ToADBMap[0x] = 0x59;     // 7 home
-                              // _PS2ToADBMap[0xe052] = 0x53;     // 1 end
-                           //}
-                           //else
-                          // {
-                              // _PS2ToADBMap[0xe022] = 0x34;      // 8 up arrow
-                             //  _PS2ToADBMap[0xe037] = 0x69;      // 2 down arrow
-                            //   _PS2ToADBMap[0x65] = 0x6b;      // 4 left arrow
-                             //  _PS2ToADBMap[0x69] = 0x4f;      // 6 right arrow
-                             //  _PS2ToADBMap[0x6b] = 0x5a;      // 0 insert / CDROM inject
-                            //   _PS2ToADBMap[0xe053] = 0x75;      // . delete
-                           //    _PS2ToADBMap[0xe010] = 0x4d;      // 9 page up
-                            //   _PS2ToADBMap[0xe046] = 0x80;      // 3 page down
-                               //_PS2ToADBMap[0x47] = 0x73;      // 7 home
-                             //  _PS2ToADBMap[0xe052] = 0x92;      // 1 end
+                        if(!_numKeypadLocked)
+                        {
+                               _PS2ToADBMap[0xe022] = 0x5b;     // 8 up arrow
+                               _PS2ToADBMap[0xe037] = 0x54;     // 2 down arrow
+                               _PS2ToADBMap[0x65] = 0x56;     // 4 left arrow
+                              _PS2ToADBMap[0x69] = 0x58;     // 6 right arrow
+                               _PS2ToADBMap[0x6b] = 0x52;     // 0 insert / CDROM inject
+                               _PS2ToADBMap[0xe053] = 0x41;     // . delete
+                               _PS2ToADBMap[0xe010] = 0x5c;     // 9 page up
+                               _PS2ToADBMap[0xe046] = 0x55;     // 3 page down
+                               _PS2ToADBMap[0x] = 0x59;     // 7 home
+                               _PS2ToADBMap[0xe052] = 0x53;     // 1 end
+			       _PS2ToADBMap[0xe019] = 0x2c; ///
+			       _PS2ToADBMap[0x37] = 0x43;//*
+			       _PS2ToADBMap[0xe045] = 0x4e;//-
+			       _PS2ToADBMap[0x4e] = 0x45;//+
+				
+                           }
+                           else
+                           {
+                               _PS2ToADBMap[0xe022] = 0x34;      // 8 up arrow
+                               _PS2ToADBMap[0xe037] = 0x69;      // 2 down arrow
+                               _PS2ToADBMap[0x65] = 0x6b;      // 4 left arrow
+                               _PS2ToADBMap[0x69] = 0x4f;      // 6 right arrow
+                               _PS2ToADBMap[0x6b] = 0x5a;      // 0 insert / CDROM inject
+                               _PS2ToADBMap[0xe053] = 0x75;      // . delete
+                               _PS2ToADBMap[0xe010] = 0x4d;      // 9 page up
+                               _PS2ToADBMap[0xe046] = 0x80;      // 3 page down
+                               _PS2ToADBMap[0x47] = 0x73;      // 7 home
+                               _PS2ToADBMap[0xe052] = 0x92;      // 1 end
 
-                          // }
-                          // break;
+                           }
+                           break;
         case 0x4e:  // Numpad+
         case 0x4a:  // Numpad-
             if (_backlightLevels && checkModifierState(kMaskLeftControl|kMaskLeftAlt))
@@ -2265,7 +2269,7 @@ void ApplePS2Keyboard::initKeyboard()
     //
     // Reset the keyboard to its default state.
     //
-    //setNumLockFeedback(_numKeypadsss);
+    setNumLockFeedback(_numKeypadLocked);
     TPS2Request<2> request;
     request.commands[0].command = kPS2C_WriteDataPort;
     request.commands[0].inOrOut = kDP_SetDefaults;
