@@ -1492,14 +1492,14 @@ bool ApplePS2Keyboard::dispatchKeyboardEventWithPacket(const UInt8* packet)
     switch (keyCode)
     {
         case 0x6e:
-                    if (checkModifierState(kMaskLeftControl|kMaskLeftShift)) {
-                        keyCode=0;
-                        if(goingDown){
+                    //if (checkModifierState(kMaskLeftControl|kMaskLeftShift)) {
+                       // keyCode=0;
+                        //if(goingDown){
                             dispatchKeyboardEventX(0x38, false, now_abs);
                             dispatchKeyboardEventX(0x3b, false, now_abs);
-                            dispatchKeyboardEventX(0x59, true, now_abs);
-                    }
-                    }
+                            dispatchKeyboardEventX(0x1a, true, now_abs);
+                    //}
+                    //}
                     break;
                 //case 0x45:  //num lock remapping
                            //keyCode = 0;
