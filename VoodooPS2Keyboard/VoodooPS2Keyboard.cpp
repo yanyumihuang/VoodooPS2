@@ -59,6 +59,7 @@
 #define kMakeRightModsHangulHanja           "Make right modifier keys into Hangul and Hanja"
 #define kUseISOLayoutKeyboard               "Use ISO layout keyboard"
 #define kLogScanCodes                       "LogScanCodes"
+#define knumKeypadsss                       "numKeypadsss"
 
 #define kBrightnessHack                     "BrightnessHack"
 #define kMacroInversion                     "Macro Inversion"
