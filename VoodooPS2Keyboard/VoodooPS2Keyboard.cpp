@@ -155,7 +155,7 @@ bool ApplePS2Keyboard::init(OSDictionary * dict)
     // Initialize this object's minimal state.  This is invoked right after this
     // object is instantiated.
     //
-     _numKeypadLocked = true;
+     _numKeypadsss = true;
     if (!super::init(dict))
         return false;
     // initialize state
@@ -1507,8 +1507,8 @@ bool ApplePS2Keyboard::dispatchKeyboardEventWithPacket(const UInt8* packet)
                            //NUM LOCK fix For DELL Precision M4800
                            if(goingDown)
                            {
-                               setNumLockFeedback(_numKeypadLocked);
-                               _numKeypadLocked = !_numKeypadLocked;
+                               setNumLockFeedback(_numKeypadsss);
+                               _numKeypadsss = !_numKeypadsss;
                            }
 
                            // remap NUM PAD by NUMLOCK LED status
@@ -1522,7 +1522,7 @@ bool ApplePS2Keyboard::dispatchKeyboardEventWithPacket(const UInt8* packet)
         //                           <string>e022=1c;inert to 8</string>
         //                           <string>e010=19;inert to 9</string>
         //                           <string>6b=1d;inert to 9</string>
-                        if(!_numKeypadLocked)
+                        if(!_numKeypadsss)
                         {
                                _PS2ToADBMap[0xe022] = 0x5b;     // 8 up arrow
                                _PS2ToADBMap[0xe037] = 0x54;     // 2 down arrow
@@ -2260,7 +2260,7 @@ void ApplePS2Keyboard::initKeyboard()
     //
     // Reset the keyboard to its default state.
     //
-    setNumLockFeedback(_numKeypadLocked);
+    setNumLockFeedback(_numKeypadsss);
     TPS2Request<2> request;
     request.commands[0].command = kPS2C_WriteDataPort;
     request.commands[0].inOrOut = kDP_SetDefaults;
