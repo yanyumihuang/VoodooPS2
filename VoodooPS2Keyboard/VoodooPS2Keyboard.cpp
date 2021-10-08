@@ -1536,7 +1536,7 @@ bool ApplePS2Keyboard::dispatchKeyboardEventWithPacket(const UInt8* packet)
                                _PS2ToADBMap[0xe053] = 0x41;     // . delete
                                _PS2ToADBMap[0xe010] = 0x5c;     // 9 page up
                                _PS2ToADBMap[0xe046] = 0x55;     // 3 page down
-                               _PS2ToADBMap[0x] = 0x59;     // 7 home
+                               //_PS2ToADBMap[0x] = 0x59;     // 7 home
                                _PS2ToADBMap[0xe052] = 0x53;     // 1 end
 			       _PS2ToADBMap[0xe019] = 0x2c; ///
 			       _PS2ToADBMap[0x37] = 0x43;//*
@@ -1546,16 +1546,13 @@ bool ApplePS2Keyboard::dispatchKeyboardEventWithPacket(const UInt8* packet)
                            }
                            else
                            {
-                               _PS2ToADBMap[0xe022] = 0x34;      // 8 up arrow
-                               _PS2ToADBMap[0xe037] = 0x69;      // 2 down arrow
-                               _PS2ToADBMap[0x65] = 0x6b;      // 4 left arrow
-                               _PS2ToADBMap[0x69] = 0x4f;      // 6 right arrow
-                               _PS2ToADBMap[0x6b] = 0x5a;      // 0 insert / CDROM inject
-                               _PS2ToADBMap[0xe053] = 0x75;      // . delete
-                               _PS2ToADBMap[0xe010] = 0x4d;      // 9 page up
-                               _PS2ToADBMap[0xe046] = 0x80;      // 3 page down
-                               _PS2ToADBMap[0x47] = 0x73;      // 7 home
-                               _PS2ToADBMap[0xe052] = 0x92;      // 1 end
+                              // _PS2ToADBMap[0xe022] = 0x34;      // 8 up arrow
+                               //_PS2ToADBMap[0xe037] = 0x69;      // 2 down arrow
+                               //_PS2ToADBMap[0x6b] = 0x5a;      // 0 insert / CDROM inject
+                               //_PS2ToADBMap[0xe053] = 0x75;      // . delete
+                               //_PS2ToADBMap[0xe010] = 0x4d;      // 9 page up
+                               //_PS2ToADBMap[0x47] = 0x73;      // 7 home
+                               //_PS2ToADBMap[0xe052] = 0x92;      // 1 end
 
                            }
                            break;
