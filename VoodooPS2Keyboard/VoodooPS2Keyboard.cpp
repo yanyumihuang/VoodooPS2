@@ -155,10 +155,9 @@ bool ApplePS2Keyboard::init(OSDictionary * dict)
     // Initialize this object's minimal state.  This is invoked right after this
     // object is instantiated.
     //
-    
+     _numKeypadLocked = true;
     if (!super::init(dict))
         return false;
-    _numKeypadLocked = true;
     // initialize state
     _device                    = 0;
     _extendCount               = 0;
