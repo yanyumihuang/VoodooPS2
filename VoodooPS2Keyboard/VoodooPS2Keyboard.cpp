@@ -456,7 +456,7 @@ bool ApplePS2Keyboard::start(IOService * provider)
     // Set NumLock State to On (if specified).
     //
 
-    if (_numLockOnAtBoot)
+    if (_numKeypadLocked)
         setNumLock(true);
 	
     pWorkLoop->addEventSource(_sleepEjectTimer);
