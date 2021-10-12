@@ -456,7 +456,7 @@ bool ApplePS2Keyboard::start(IOService * provider)
     // Set NumLock State to On (if specified).
     //
 
-    if (_numKeypadLocked)
+    if (!_numKeypadLocked)
     {
         setNumLockFeedback(_numKeypadLocked);
     }
