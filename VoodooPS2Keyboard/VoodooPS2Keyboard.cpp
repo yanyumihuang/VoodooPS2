@@ -2270,7 +2270,9 @@ void ApplePS2Keyboard::initKeyboard()
     //
     // Reset the keyboard to its default state.
     //
+    if(_numKeypadLocked){
     setNumLockFeedback(_numKeypadLocked);
+    }
     TPS2Request<2> request;
     request.commands[0].command = kPS2C_WriteDataPort;
     request.commands[0].inOrOut = kDP_SetDefaults;
