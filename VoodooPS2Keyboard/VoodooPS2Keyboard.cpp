@@ -149,6 +149,7 @@ static bool parseRemap(const char *psz, UInt16 &scanFrom, UInt16& scanTo)
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  bool      _numKeypadLocked;
+ bool      _numKeypadLockedOnBoot;
 bool ApplePS2Keyboard::init(OSDictionary * dict)
 {
     //
@@ -156,6 +157,7 @@ bool ApplePS2Keyboard::init(OSDictionary * dict)
     // object is instantiated.
     //
     _numKeypadLocked = true;
+    _numKeypadLockedOnBoot=true
     if (!super::init(dict))
         return false;
     // initialize state
@@ -449,9 +451,9 @@ bool ApplePS2Keyboard::start(IOService * provider)
     //
     // Reset and enable the keyboard.
     //
-   if (_numKeypadLocked)
+   if (_numKeypadLocked||_numKeypadLockedOnBoot)
     {
-        setNumLockFeedback(_numKeypadLocked);
+        //setNumLockFeedback(_numKeypadLocked);
     }
     else{
      setNumLock(true);
@@ -2271,7 +2273,10 @@ void ApplePS2Keyboard::initKeyboard()
     //
     // Reset the keyboard to its default state.
     //
-    //setNumLockFeedback(_numKeypadLocked);
+if(_numKeypadLockedOnBoot){
+    setNumLockFeedback(_numKeypadLocked);
+	_numKeypadLockedOnBoot=false;
+}
     TPS2Request<2> request;
     request.commands[0].command = kPS2C_WriteDataPort;
     request.commands[0].inOrOut = kDP_SetDefaults;
