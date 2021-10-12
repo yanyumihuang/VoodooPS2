@@ -458,7 +458,7 @@ bool ApplePS2Keyboard::start(IOService * provider)
 
     if (_numKeypadLocked)
     {
-        setNumLockFeedback(_numKeypadLocked)
+        setNumLockFeedback(_numKeypadLocked);
     }
     pWorkLoop->addEventSource(_sleepEjectTimer);
     pWorkLoop->addEventSource(_cmdGate);
