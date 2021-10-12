@@ -451,13 +451,15 @@ bool ApplePS2Keyboard::start(IOService * provider)
     //
     // Reset and enable the keyboard.
     //
-   if (_numKeypadLocked||_numKeypadLockedOnBoot)
-    {
+  // if (_numKeypadLocked||_numKeypadLockedOnBoot)
+    //{
         //setNumLockFeedback(_numKeypadLocked);
-    }
-    else{
+    //}
+    //else{
+    if (_numKeypadLocked){
      setNumLock(true);
     }
+    //}
     initKeyboard();
     
     //
@@ -2273,10 +2275,8 @@ void ApplePS2Keyboard::initKeyboard()
     //
     // Reset the keyboard to its default state.
     //
-if(_numKeypadLockedOnBoot){
-    setNumLockFeedback(_numKeypadLocked);
-	_numKeypadLockedOnBoot=false;
-}
+
+   // setNumLockFeedback(_numKeypadLocked);
     TPS2Request<2> request;
     request.commands[0].command = kPS2C_WriteDataPort;
     request.commands[0].inOrOut = kDP_SetDefaults;
